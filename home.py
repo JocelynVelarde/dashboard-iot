@@ -8,7 +8,7 @@ import plotly.express as px
 #######################
 # Page configuration
 st.set_page_config(
-    page_title="US Population Dashboard",
+    page_title="Secure Sense 🔐",
     page_icon="🏂",
     layout="wide",
     initial_sidebar_state="expanded")
@@ -73,7 +73,7 @@ df_reshaped = pd.read_csv('data/us-population-2010-2019-reshaped.csv')
 #######################
 # Sidebar
 with st.sidebar:
-    st.title('🏂 US Population Dashboard')
+    st.title('🏡 Secure Sense Dashboard')
     
     year_list = list(df_reshaped.year.unique())[::-1]
     
