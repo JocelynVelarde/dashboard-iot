@@ -2,9 +2,8 @@ import streamlit as st
 import pandas as pd
 from connection import create_connection
 
-conn = create_connection()
-
-def get_all_houses():
+def all_houses():
+    conn = create_connection()
     if conn:
         df = pd.read_sql('SELECT * FROM HOUSES;', conn)
         return df.to_dict()
