@@ -1,11 +1,19 @@
 from fastapi import FastAPI
+import pandas as pd
+from connection import create_connection
+from pages.queries import get_all_houses
 
 app = FastAPI()
+
 
 @app.get("/")
 async def root():
     return {"message": "Hello World"}
 
+@app.get("/get-all-houses")
+async def get_all_houses():
+    return get_all_houses()
+    
 # Ultrasonic sensor
 @app.get("/object-distance")
 async def get_ultrasonic():
