@@ -1,7 +1,5 @@
 from fastapi import FastAPI
-import pandas as pd
-from connection import create_connection
-from pages.queries import get_all_houses
+from queries import get_all_houses
 
 app = FastAPI()
 

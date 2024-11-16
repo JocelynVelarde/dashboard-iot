@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from api.connection import create_connection
+from connection import create_connection
 
 conn = create_connection()
 
