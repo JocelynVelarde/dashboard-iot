@@ -5,7 +5,7 @@ from connection import create_connection
 def all_houses():
     conn = create_connection()
     if conn:
-        df = pd.read_sql('SELECT * FROM HOUSES;', conn)
+        df = pd.read_sql('SELECT * FROM HOUSE;', conn)
         return df.to_dict()
         conn.close()
     else:
