@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses
+from queries import all_houses, all_persons
 
 app = FastAPI()
 
@@ -11,6 +11,10 @@ async def root():
 @app.get("/get-all-houses")
 async def get_all_houses():
     return all_houses()
+
+@app.get("/get-all-persons")
+async def get_all_persons():
+    return all_persons()
     
 # Ultrasonic sensor
 @app.get("/object-distance")
