@@ -6,10 +6,10 @@ from mysql.connector import Error
 def create_connection():
     try:
         connection = mysql.connector.connect(
-            host='127.0.0.1',
-            user='root',
-            password='12345678',
-            database='SecureSense'
+            host=st.secrets["db_host"],
+            user=st.secrets["db_user"],
+            password=st.secrets["db_password"],
+            database=st.secrets["db_name"]
         )
         if connection.is_connected():
             return connection
