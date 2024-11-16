@@ -1,26 +1,11 @@
 import streamlit as st
 import pandas as pd
-import mysql.connector
-from mysql.connector import Error
-
-def create_connection():
-    try:
-        connection = mysql.connector.connect(
-            host=st.secrets["db_host"],
-            user=st.secrets["db_username"],
-            password=st.secrets["db_password"],
-            database=st.secrets["db_database"]
-        )
-        if connection.is_connected():
-            return connection
-    except Error as e:
-        st.error(f"Error: {e}")
-        return None
+from api.connection import create_connection
 
 conn = create_connection()
 
 if conn:
-    df = pd.read_sql('SELECT * FROM HOUSE;', conn)
+    df = pd.read_sql('SELECT * FROM SENSOR;', conn)
     st.write(df)
     conn.close()
 else:
