@@ -1,7 +1,14 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons
+from queries import all_houses, all_persons, insert_sensor
+from pydantic import BaseModel
+from fastapi.exceptions import HTTPException
 
 app = FastAPI()
+
+class Sensor(BaseModel):
+    type_: str
+    unit: str
+    room_id: int
 
 
 @app.get("/")
@@ -33,6 +40,14 @@ async def get_infrared():
 @app.post("/person-side")
 async def post_infrared():
     return {"Person detected on the side, perform a vibration": 20}
+
+@app.post("/add-sensor")
+async def add_sensor(sensor: Sensor):
+    result = insert_sensor(sensor.type_, sensor.unit, sensor.room_id)
+    if result["message"] == "Sensor inserted successfully.":
+        return result
+    else:
+        raise HTTPException(status_code=500, detail=result["message"])
 
 # Sound sensor
 @app.get("/decibel-sound")

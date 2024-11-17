@@ -19,3 +19,17 @@ def all_persons():
         conn.close()
     else:
         return {"message": "Failed to connect to the database."}
+
+
+def insert_sensor(sensor_type, unit, room_id):
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
+        query = "INSERT INTO SENSOR (type_, unit, room_id) VALUES (%s, %s, %s)"
+        cursor.execute(query, (sensor_type, unit, room_id))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return {"message": "Sensor inserted successfully."}
+    else:
+        return {"message": "Failed to connect to the database."}
