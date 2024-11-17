@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -9,6 +9,11 @@ class Sensor(BaseModel):
     type_: str
     unit: str
     room_id: int
+
+class LogSensor(BaseModel):
+    date_: str
+    measure: int
+    sensor_id: int
 
 
 @app.get("/")
@@ -45,6 +50,14 @@ async def post_infrared():
 async def add_sensor(sensor: Sensor):
     result = insert_sensor(sensor.type_, sensor.unit, sensor.room_id)
     if result["message"] == "Sensor inserted successfully.":
+        return result
+    else:
+        raise HTTPException(status_code=500, detail=result["message"])
+
+@app.post("/add-log-sensor")
+async def add_log_sensor(log_sensor: LogSensor):
+    result = insert_log_sensor(log_sensor.date_, log_sensor.measure, log_sensor.sensor_id)
+    if result["message"] == "Log sensor inserted successfully.":
         return result
     else:
         raise HTTPException(status_code=500, detail=result["message"])
