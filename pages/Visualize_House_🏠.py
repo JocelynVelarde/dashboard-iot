@@ -38,6 +38,21 @@ if st.button(label='Add person'):
     else: 
         st.error(f"Failed to add person: {response_add_person.status_code}")
 
+st.divider()
+st.subheader("Add a new room 🪟")
+# Add room information
+num_windows = st.number_input(label="Add number of windows", min_value=int(1), max_value=int(100), key="windows")
+num_doors = st.number_input(label="Add number of doors", min_value=int(1), max_value=int(100), key="doors")
+if st.button(label='Add room'):
+    response_add_room = requests.post("http://127.0.0.1:8000/add-room", json={
+        "num_windows": num_windows,
+        "num_doors": num_doors,
+    })
+    if response_add_room.status_code == 200:
+        st.success("Room added!")
+    else: 
+        st.error(f"Failed to add room: {response_add_room.status_code}")
+
 
 st.divider()
 st.subheader("Add a new house 🌳")

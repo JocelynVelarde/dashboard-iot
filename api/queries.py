@@ -1,7 +1,6 @@
 import streamlit as st
 import pandas as pd
 from connection import create_connection
-import datetime
 
 def all_houses():
     conn = create_connection()
@@ -75,6 +74,19 @@ def insert_person(room_id, name):
         cursor.close()
         conn.close()
         return {"message": "Person inserted successfully."}
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def insert_room(room_windows, num_doors):
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
+        query = "INSERT INTO ROOM (room_windows, num_doors) VALUES (%s, %s)"
+        cursor.execute(query, (room_windows, num_doors))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return {"message": "Room inserted successfully."}
     else:
         return {"message": "Failed to connect to the database."}
 
