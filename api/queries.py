@@ -35,14 +35,13 @@ def insert_sensor(sensor_type, unit, room_id):
     else:
         return {"message": "Failed to connect to the database."}
 
-# FILE: queries.py
 def insert_log_sensor(date_, measure, sensor_id):
     conn = create_connection()
     if conn:
         cursor = conn.cursor()
-        current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
         query = "INSERT INTO LOG_SENSOR (date_, measure, sensor_id) VALUES (%s, %s, %s)"
-        cursor.execute(query, (current_time, measure, sensor_id))
+        cursor.execute(query, (date_, measure, sensor_id))
         conn.commit()
         cursor.close()
         conn.close()
