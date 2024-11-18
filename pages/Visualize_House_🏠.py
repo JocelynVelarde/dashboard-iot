@@ -22,6 +22,21 @@ if st.button(label='Add sensor'):
     else: 
         st.error(f"Failed to add sensor: {response_add_sensor.status_code}")
 
+st.divider()
+st.subheader("Add a new person 👱🏽")
+# Add person information
+name = st.text_input(label="Person's name")
+room_id_person = st.number_input(label="Add room id", min_value=int(1), max_value=int(100), key="person")
+if st.button(label='Add person'):
+    response_add_person = requests.post("http://127.0.0.1:8000/add-person", json={
+        "room_id": room_id_person,
+        "name": name,
+    })
+    if response_add_person.status_code == 200:
+        st.success("Person added!")
+    else: 
+        st.error(f"Failed to add person: {response_add_person.status_code}")
+
 response_houses = requests.get("http://127.0.0.1:8000/get-all-houses")
 # Fetch house information
 st.divider()
@@ -56,12 +71,12 @@ else:
     st.error(f"Failed to fetch data: {response_person.status_code}")
 
 response_room = requests.get("http://127.0.0.1:8000/get-all-rooms")
-# Fetch person information
+# Fetch room information
 st.divider()
 st.subheader('Room Information 🚪')
 if response_room.status_code == 200:
     room_data = response_room.json()
-    df = pd.DataFrame(response_room)
+    df = pd.DataFrame(room_data)
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_room.status_code}")

@@ -51,6 +51,32 @@ def insert_sensor(sensor_type, unit, room_id):
         return {"message": "Sensor inserted successfully."}
     else:
         return {"message": "Failed to connect to the database."}
+    
+def insert_house(direction_ip, direction):
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
+        query = "INSERT INTO HOUSE (direction_ip, direction) VALUES (%s, %s)"
+        cursor.execute(query, (direction_ip, direction))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return {"message": "House inserted successfully."}
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def insert_person(room_id, name):
+    conn = create_connection()
+    if conn:
+        cursor = conn.cursor()
+        query = "INSERT INTO PERSON (room_id, name) VALUES (%s, %s)"
+        cursor.execute(query, (room_id, name))
+        conn.commit()
+        cursor.close()
+        conn.close()
+        return {"message": "Person inserted successfully."}
+    else:
+        return {"message": "Failed to connect to the database."}
 
 def insert_log_sensor(date_, measure, sensor_id):
     conn = create_connection()
