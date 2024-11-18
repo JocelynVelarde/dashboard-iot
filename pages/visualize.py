@@ -10,7 +10,11 @@ room_id = st.number_input(label="Add room id")
 
 # Fetch data from the FastAPI endpoints
 response_houses = requests.get("http://127.0.0.1:8000/get-all-houses")
-response_add_sensor = requests.post("http://127.0.0.1:8000/add-sensor", sensor_type, unit, room_id)
+response_add_sensor = requests.post("http://127.0.0.1:8000/add-sensor", json={
+    "sensor_type": sensor_type,
+    "unit": unit,
+    "room_id": room_id
+})
 
 if response_houses.status_code == 200:
     houses_data = response_houses.json()
