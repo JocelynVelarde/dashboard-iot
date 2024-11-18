@@ -41,13 +41,48 @@ def all_sensors():
     else:
         return {"message": "Failed to connect to the database."}
     
-def get_sensor_logs(sensor_id):
+def get_sound_logs():
     conn = create_connection()
     if conn:
-        query = 'SELECT * FROM LOG_SENSOR WHERE sensor_id = %s;'
-        df = pd.read_sql(query, conn, params=(sensor_id,))
-        conn.close()
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 16;', conn)
         return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def get_magnetic_logs():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 17;', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def get_ir_logs():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 18;', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def get_ultrasonic_logs():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 19;', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
+    
+def get_push_logs():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 20;', conn)
+        return df.to_dict()
+        conn.close()
     else:
         return {"message": "Failed to connect to the database."}
     
