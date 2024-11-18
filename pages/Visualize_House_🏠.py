@@ -21,7 +21,19 @@ if st.button(label='Add person'):
     else: 
         st.error(f"Failed to add person: {response_add_person.status_code}")
 
+response_person = requests.get("http://127.0.0.1:8000/get-all-persons")
+# Fetch person information
 st.divider()
+st.subheader('Person Information 🧑‍🧑‍🧒')
+if response_person.status_code == 200:
+    person_data = response_person.json()
+    df = pd.DataFrame(person_data)
+    st.table(df)  
+else:
+    st.error(f"Failed to fetch data: {response_person.status_code}")
+
+st.divider()
+
 st.subheader("Add a new room 🪟")
 # Add room information
 num_windows = st.number_input(label="Add number of windows", min_value=int(1), max_value=int(100), key="windows")
@@ -36,6 +48,16 @@ if st.button(label='Add room'):
     else: 
         st.error(f"Failed to add room: {response_add_room.status_code}")
 
+response_room = requests.get("http://127.0.0.1:8000/get-all-rooms")
+# Fetch room information
+st.divider()
+st.subheader('Room Information 🚪')
+if response_room.status_code == 200:
+    room_data = response_room.json()
+    df = pd.DataFrame(room_data)
+    st.table(df)  
+else:
+    st.error(f"Failed to fetch data: {response_room.status_code}")
 
 st.divider()
 st.subheader("Add a new house 🌳")
@@ -65,28 +87,6 @@ if response_houses.status_code == 200:
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_houses.status_code}")
-
-response_person = requests.get("http://127.0.0.1:8000/get-all-persons")
-# Fetch person information
-st.divider()
-st.subheader('Person Information 🧑‍🧑‍🧒')
-if response_person.status_code == 200:
-    person_data = response_person.json()
-    df = pd.DataFrame(person_data)
-    st.table(df)  
-else:
-    st.error(f"Failed to fetch data: {response_person.status_code}")
-
-response_room = requests.get("http://127.0.0.1:8000/get-all-rooms")
-# Fetch room information
-st.divider()
-st.subheader('Room Information 🚪')
-if response_room.status_code == 200:
-    room_data = response_room.json()
-    df = pd.DataFrame(room_data)
-    st.table(df)  
-else:
-    st.error(f"Failed to fetch data: {response_room.status_code}")
 
 
 
