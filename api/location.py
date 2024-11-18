@@ -2,8 +2,6 @@ import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
 from geopy.geocoders import Nominatim
 
-
-
 def get_lat_lon():
     location = streamlit_geolocation()
     if location:
@@ -15,10 +13,11 @@ def get_lat_lon():
         st.error("Location data not available")
         return None, None
 
-
 def get_location():
     latitude, longitude = get_lat_lon()
-    geolocator = Nominatim(user_agent="geoapiExercises")
-    location = geolocator.geocode(float(latitude)+","+float(longitude))
-    return location
-    
+    if latitude is not None and longitude is not None:
+        geolocator = Nominatim(user_agent="geoapiExercises")
+        location = geolocator.geocode(f"{latitude},{longitude}")
+        return location
+    else:
+        return None

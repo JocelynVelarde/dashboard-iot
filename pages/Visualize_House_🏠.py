@@ -7,10 +7,6 @@ from api.location import get_location
 st.title("Manage my House 🧰")
 st.divider()
 
-location = get_location()
-st.write(location)
-
-
 st.subheader("Add a new sensor 🔧")
 # Add sensor information
 sensor_type = st.text_input(label="Add the sensor type")
@@ -45,6 +41,9 @@ if st.button(label='Add person'):
 
 st.divider()
 st.subheader("Add a new house 🌳")
+st.write("If location unkown use the tool below to find your location")
+location = get_location()
+st.write(location)
 # Add house information
 direction_ip = st.text_input(label="IP Direction")
 direction = st.text_input(label="Direction")
