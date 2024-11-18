@@ -41,12 +41,13 @@ def all_sensors():
     else:
         return {"message": "Failed to connect to the database."}
     
-def sound_sensor_logs():
+def get_sensor_logs(sensor_id):
     conn = create_connection()
     if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = ' + sound_id +';', conn)
-        return df.to_dict()
+        query = 'SELECT * FROM LOG_SENSOR WHERE sensor_id = %s;'
+        df = pd.read_sql(query, conn, params=(sensor_id,))
         conn.close()
+        return df.to_dict()
     else:
         return {"message": "Failed to connect to the database."}
     

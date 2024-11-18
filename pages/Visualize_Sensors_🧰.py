@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 from api.sensor_ids import get_ids
+from api.queries import get_sensor_logs
 
 st.title("Manage my Sensors 🧰")
 st.divider()
@@ -37,7 +38,7 @@ st.divider()
 
 st.write("Specify sensor ids to classify historical data")
 st.write("This will help out to make your queries on our database")
-get_ids()
+ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
 if st.button(label="Send sensor IDs to filter information", key="ids"):
     st.divider()
     st.subheader("Ultrasonic Sensor")
@@ -47,17 +48,11 @@ if st.button(label="Send sensor IDs to filter information", key="ids"):
 
     st.divider()
     st.subheader("IR Sensor")
+    sound_logs = get_sensor_logs(sound_id)
+    st.write("Sound Sensor Logs:", sound_logs)
 
     st.divider()
     st.subheader("Sound Sensor")
-    response_sound = requests.get("http://127.0.0.1:8000/sound-sensor-logs")
-    # Fetch sound sensor information
-    if response_sound.status_code == 200:
-        sound_data = response_sound.json()
-        df = pd.DataFrame(sound_data)
-        st.table(df)  
-    else:
-        st.error(f"Failed to fetch data: {response_sound.status_code}")
 
     st.divider()
     st.subheader("Magnetic Sensor")
