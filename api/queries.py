@@ -1,6 +1,9 @@
 import streamlit as st
 import pandas as pd
 from connection import create_connection
+from sensor_ids import get_ids
+
+ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
 
 def all_houses():
     conn = create_connection()
@@ -37,7 +40,16 @@ def all_sensors():
         conn.close()
     else:
         return {"message": "Failed to connect to the database."}
-
+    
+def sound_sensor_logs():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = ' + sound_id +';', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
+    
 def insert_sensor(sensor_type, unit, room_id):
     conn = create_connection()
     if conn:
