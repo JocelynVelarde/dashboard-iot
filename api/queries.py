@@ -20,7 +20,24 @@ def all_persons():
         conn.close()
     else:
         return {"message": "Failed to connect to the database."}
+    
+def all_rooms():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM ROOM;', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
 
+def all_sensors():
+    conn = create_connection()
+    if conn:
+        df = pd.read_sql('SELECT * FROM SENSOR;', conn)
+        return df.to_dict()
+        conn.close()
+    else:
+        return {"message": "Failed to connect to the database."}
 
 def insert_sensor(sensor_type, unit, room_id):
     conn = create_connection()
