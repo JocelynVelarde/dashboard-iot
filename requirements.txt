@@ -4,3 +4,4 @@ mysqlclient
 SQLAlchemy
 streamlit_geolocation
 streamlit
+geopy

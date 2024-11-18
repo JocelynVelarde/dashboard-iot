@@ -2,12 +2,13 @@
 import streamlit as st
 import requests
 import pandas as pd
-from api.location import get_lat_lon
+from api.location import get_location
 
 st.title("Manage my House 🧰")
 st.divider()
 
-location = get_lat_lon()
+location = get_location()
+st.write(location)
 
 
 st.subheader("Add a new sensor 🔧")
