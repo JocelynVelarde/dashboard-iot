@@ -1,8 +1,6 @@
 import streamlit as st
 import requests
 import pandas as pd
-from api.sensor_ids import get_ids
-from api.queries import get_sensor_logs
 
 st.title("Manage my Sensors 🧰")
 st.divider()
@@ -33,28 +31,3 @@ if response_sensor.status_code == 200:
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_sensor.status_code}")
-
-st.divider()
-
-st.write("Specify sensor ids to classify historical data")
-st.write("This will help out to make your queries on our database")
-ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
-if st.button(label="Send sensor IDs to filter information", key="ids"):
-    st.divider()
-    st.subheader("Ultrasonic Sensor")
-
-    st.divider()
-    st.subheader("Push Button")
-
-    st.divider()
-    st.subheader("IR Sensor")
-    sound_logs = get_sensor_logs(sound_id)
-    st.write("Sound Sensor Logs:", sound_logs)
-
-    st.divider()
-    st.subheader("Sound Sensor")
-
-    st.divider()
-    st.subheader("Magnetic Sensor")
-else: 
-    st.error("Error sendind IDs to query")
