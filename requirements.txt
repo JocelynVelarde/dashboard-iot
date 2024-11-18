@@ -2,3 +2,5 @@ pandas
 plotly
 mysqlclient
 SQLAlchemy
+streamlit_geolocation
+streamlit

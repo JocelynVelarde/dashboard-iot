@@ -2,9 +2,13 @@
 import streamlit as st
 import requests
 import pandas as pd
+from api.location import get_lat_lon
 
 st.title("Manage my House 🧰")
 st.divider()
+
+location = get_lat_lon()
+
 
 st.subheader("Add a new sensor 🔧")
 # Add sensor information
@@ -36,6 +40,22 @@ if st.button(label='Add person'):
         st.success("Person added!")
     else: 
         st.error(f"Failed to add person: {response_add_person.status_code}")
+
+
+st.divider()
+st.subheader("Add a new house 🌳")
+# Add house information
+direction_ip = st.text_input(label="IP Direction")
+direction = st.text_input(label="Direction")
+if st.button(label='Add house'):
+    response_add_house = requests.post("http://127.0.0.1:8000/add-house", json={
+        "direction_ip": direction_ip,
+        "direction": direction,
+    })
+    if response_add_house.status_code == 200:
+        st.success("House added!")
+    else: 
+        st.error(f"Failed to add house: {response_add_house.status_code}")
 
 response_houses = requests.get("http://127.0.0.1:8000/get-all-houses")
 # Fetch house information
