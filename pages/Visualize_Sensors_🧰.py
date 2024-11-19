@@ -37,7 +37,6 @@ st.subheader("Ultrasonic Sensor")
 response_ultrasonic = requests.get("http://127.0.0.1:8000/get-ultrasonic-logs")
 if response_ultrasonic.status_code == 200:
     ultrasonic_data = response_ultrasonic.json()
-    print(ultrasonic_data)
     df = pd.DataFrame(ultrasonic_data)
     df['date_'] = pd.to_datetime(df['date_'])
     st.line_chart(df.set_index('date_')['measure']) 
