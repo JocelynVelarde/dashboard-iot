@@ -53,7 +53,7 @@ def get_sound_logs():
 def get_magnetic_logs():
     conn = create_connection()
     if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 17;', conn)
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 20;', conn)
         return df.to_dict()
         conn.close()
     else:
@@ -80,7 +80,7 @@ def get_ultrasonic_logs():
 def get_push_logs():
     conn = create_connection()
     if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 20;', conn)
+        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 21;', conn)
         return df.to_dict()
         conn.close()
     else:

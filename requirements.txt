@@ -1,6 +1,6 @@
 pandas
 plotly
-mysqlclient
+mysqlclient==2.2.6
 SQLAlchemy
 streamlit_geolocation
 streamlit
