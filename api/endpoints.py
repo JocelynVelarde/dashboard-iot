@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -36,6 +36,22 @@ async def root():
 async def get_all_houses():
     return all_houses()
 
+@app.get("/recent-house")
+async def get_recent_house():
+    return recent_house()
+
+@app.get("/recent-person")
+async def get_recent_person():
+    return recent_person()
+
+@app.get("/recent-room")
+async def get_recent_room():
+    return recent_room()
+
+@app.get("/recent-sensor")
+async def get_recent_sensor():
+    return recent_sensor()
+
 @app.get("/get-all-persons")
 async def get_all_persons():
     return all_persons()
@@ -43,6 +59,14 @@ async def get_all_persons():
 @app.get("/count-persons")
 async def count_person():
     return count_persons()
+
+@app.get("/count-rooms")
+async def count_room():
+    return count_rooms()
+
+@app.get("/count-houses")
+async def count_house():
+    return count_houses()
 
 @app.get("/count-sensors")
 async def count_sensor():

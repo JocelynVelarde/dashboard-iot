@@ -186,24 +186,46 @@ def calculate_population_difference(input_df, input_year):
 
 #######################
 # Dashboard Main Panel
-col = st.columns((1, 3, 2), gap='medium')
+col = st.columns((1.5, 3, 1.5), gap='medium')
 
 with col[0]:
     df_population_difference_sorted = calculate_population_difference(df_reshaped, selected_year)
 
     response_sensor_count = requests.get("http://127.0.0.1:8000/count-sensors")
+    response_recent_sensor = requests.get("http://127.0.0.1:8000/recent-sensor")
     if response_sensor_count.status_code == 200:
         sensor_data_count = int(response_sensor_count.json()[0][f"COUNT(*)"])
-        st.metric(label="Sensor Count", value=sensor_data_count, delta=2)
+        recent_data_sensor = response_recent_sensor.json()[0].get("type_")
+        st.metric(label="Sensor Count", value=sensor_data_count, delta=recent_data_sensor)
     else:
         st.error(f"Failed to fetch data: {response_sensor_count.status_code}")
 
     response_person_count = requests.get("http://127.0.0.1:8000/count-persons")
+    response_recent_person = requests.get("http://127.0.0.1:8000/recent-person")
     if response_person_count.status_code == 200:
         person_data_count = int(response_person_count.json()[0][f"COUNT(*)"])
-        st.metric(label="Person Count", value=person_data_count, delta=2)
+        recent_data_person = response_recent_person.json()[0].get("name")
+        st.metric(label="Person Count", value=person_data_count, delta=recent_data_person)
     else:
         st.error(f"Failed to fetch data: {response_person_count.status_code}")
+
+    response_house_count = requests.get("http://127.0.0.1:8000/count-houses")
+    response_resent_house = requests.get("http://127.0.0.1:8000/recent-house")
+    if response_house_count.status_code == 200:
+        house_data_count = int(response_house_count.json()[0][f"COUNT(*)"])
+        recent_data_house = response_resent_house.json()[0].get("direction")
+        st.metric(label="House Count", value=house_data_count, delta=recent_data_house)
+    else:
+        st.error(f"Failed to fetch data: {response_house_count.status_code}")
+
+    response_room_count = requests.get("http://127.0.0.1:8000/count-rooms")
+    response_recent_room = requests.get("http://127.0.0.1:8000/recent-room")
+    if response_room_count.status_code == 200:
+        room_data_count = int(response_room_count.json()[0][f"COUNT(*)"])
+        recent_data_room = response_recent_room.json()[0].get("num_windows")
+        st.metric(label="Room Count", value=room_data_count, delta=recent_data_room)
+    else:
+        st.error(f"Failed to fetch data: {response_room_count.status_code}")
     
 
 with col[1]:
@@ -214,16 +236,16 @@ with col[1]:
     donut_chart_magnetic = make_donut(78, 'Outbound Migration', 'red')
     migrations_col = st.columns((1, 2, 2))
     with migrations_col[1]:
-        st.write('Ultrasonic')
+        st.write('Ultrasonic Active')
         st.altair_chart(donut_chart_ultrasonic)
-        st.write('Sound')
+        st.write('Sound Active')
         st.altair_chart(donut_chart_sound)
     with migrations_col[2]:
-        st.write('Push Button')
+        st.write('Push Button Active')
         st.altair_chart(donut_chart_push)
-        st.write('IR')
+        st.write('IR Active')
         st.altair_chart(donut_chart_ir)
-        st.write('Magnetic')
+        st.write('Magnetic Active')
         st.altair_chart(donut_chart_magnetic)
     
 with col[2]:

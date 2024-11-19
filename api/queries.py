@@ -28,7 +28,44 @@ def count_sensors():
     cursor = connection.cursor()
     cursor.execute('SELECT COUNT(*) FROM SENSOR')
     return cursor.fetchall()
+
+def count_rooms():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(*) FROM ROOM')
+    return cursor.fetchall()
+
+def count_houses():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(*) FROM HOUSE')
+    return cursor.fetchall()
+
+def recent_house():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM HOUSE ORDER BY house_id DESC LIMIT 1')
+    return cursor.fetchall()
+
+def recent_room():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM ROOM ORDER BY room_id DESC LIMIT 1')
+    return cursor.fetchall()
+
+def recent_sensor():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM SENSOR ORDER BY sensor_id DESC LIMIT 1')
+    return cursor.fetchall()
+
+def recent_person():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM PERSON ORDER BY room_id DESC LIMIT 1')
+    return cursor.fetchall()
     
+
 def all_rooms():
     connection = create_connection_aiven()
     cursor = connection.cursor()
