@@ -40,9 +40,8 @@ if response_ultrasonic.status_code == 200:
     print(ultrasonic_data)
     df = pd.DataFrame(ultrasonic_data)
     df['date_'] = pd.to_datetime(df['date_'])
-    df = df.sort_values(by='date_')
-    st.line_chart(df[['date_'], ['measure']])
-    st.table(df)  
+    st.line_chart(df.set_index('date_')['measure']) 
+    st.table(df)
 else:
     st.error(f"Failed to fetch data: {response_ultrasonic.status_code}")
 
