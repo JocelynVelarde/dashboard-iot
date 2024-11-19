@@ -1,18 +1,18 @@
 import streamlit as st
 import pandas as pd
-from connection import create_connection
+from connection import create_connection, create_connection_aiven
 from sensor_ids import get_ids
+import pymysql
 
 ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
 
+
 def all_houses():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM HOUSE;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute("USE SecureSense")
+    cursor.execute("SELECT * FROM SENSOR")
+    return cursor.fetchall()
 
 def all_persons():
     conn = create_connection()
