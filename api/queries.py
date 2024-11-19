@@ -1,8 +1,6 @@
 import streamlit as st
-import pandas as pd
-from connection import create_connection, create_connection_aiven
+from connection import create_connection_aiven
 from sensor_ids import get_ids
-import pymysql
 
 ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
 
@@ -10,144 +8,93 @@ ultrasonic_id, sound_id, magnetic_id, push_button_id, ir_id = get_ids()
 def all_houses():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute("USE SecureSense")
-    cursor.execute("SELECT * FROM SENSOR")
+    cursor.execute("SELECT * FROM HOUSE")
     return cursor.fetchall()
 
 def all_persons():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM PERSON;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM PERSON')
+    return cursor.fetchall()
     
 def all_rooms():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM ROOM;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM ROOM')
+    return cursor.fetchall()
 
 def all_sensors():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM SENSOR;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM SENSOR')
+    return cursor.fetchall()
     
 def get_sound_logs():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 16;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 16')
+    return cursor.fetchall()
     
 def get_magnetic_logs():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 20;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 20')
+    return cursor.fetchall()
     
 def get_ir_logs():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 21;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 21')
+    return cursor.fetchall()
     
 def get_ultrasonic_logs():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 19;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 19')
+    return cursor.fetchall()
     
 def get_push_logs():
-    conn = create_connection()
-    if conn:
-        df = pd.read_sql('SELECT * FROM LOG_SENSOR WHERE sensor_id = 22;', conn)
-        return df.to_dict()
-        conn.close()
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 22')
+    return cursor.fetchall()
     
 def insert_sensor(sensor_type, unit, room_id):
-    conn = create_connection()
-    if conn:
-        cursor = conn.cursor()
-        query = "INSERT INTO SENSOR (type_, unit, room_id) VALUES (%s, %s, %s)"
-        cursor.execute(query, (sensor_type, unit, room_id))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "Sensor inserted successfully."}
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO SENSOR (type_, unit, room_id) VALUES (%s, %s, %s)'
+    cursor.execute(query, (sensor_type, unit, room_id))
+    connection.commit()
+    return {"message": "Sensor inserted successfully."}
     
 def insert_house(direction_ip, direction):
-    conn = create_connection()
-    if conn:
-        cursor = conn.cursor()
-        query = "INSERT INTO HOUSE (direction_ip, direction) VALUES (%s, %s)"
-        cursor.execute(query, (direction_ip, direction))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "House inserted successfully."}
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO HOUSE (direction_ip, direction) VALUES (%s, %s)'
+    cursor.execute(query, (direction_ip, direction))
+    connection.commit()
+    return {"message": "House inserted successfully."}
     
 def insert_person(room_id, name):
-    conn = create_connection()
-    if conn:
-        cursor = conn.cursor()
-        query = "INSERT INTO PERSON (room_id, name) VALUES (%s, %s)"
-        cursor.execute(query, (room_id, name))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "Person inserted successfully."}
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO PERSON (room_id, name) VALUES ((%s, %s)'
+    cursor.execute(query, (room_id, name))
+    connection.commit()
+    return {"message": "House inserted successfully."}
     
 def insert_room(room_windows, num_doors):
-    conn = create_connection()
-    if conn:
-        cursor = conn.cursor()
-        query = "INSERT INTO ROOM (room_windows, num_doors) VALUES (%s, %s)"
-        cursor.execute(query, (room_windows, num_doors))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "Room inserted successfully."}
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO ROOM (room_windows, num_doors) VALUES (%s, %s)'
+    cursor.execute(query, room_windows, num_doors)
+    connection.commit()
+    return {"message": "Room inserted successfully."}
 
 def insert_log_sensor(date_, measure, sensor_id):
-    conn = create_connection()
-    if conn:
-        cursor = conn.cursor()
-    
-        query = "INSERT INTO LOG_SENSOR (date_, measure, sensor_id) VALUES (%s, %s, %s)"
-        cursor.execute(query, (date_, measure, sensor_id))
-        conn.commit()
-        cursor.close()
-        conn.close()
-        return {"message": "Log sensor inserted successfully."}
-    else:
-        return {"message": "Failed to connect to the database."}
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO LOG_SENSOR (date_, measure, sensor_id) VALUES (%s, %s, %s)'
+    cursor.execute(query, (date_, measure, sensor_id))
+    connection.commit()
+    return {"message": "Log sensor inserted successfully."}
