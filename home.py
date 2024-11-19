@@ -4,6 +4,7 @@ import streamlit as st
 import pandas as pd
 import altair as alt
 import plotly.express as px
+import requests
 
 #######################
 # Page configuration
@@ -185,73 +186,47 @@ def calculate_population_difference(input_df, input_year):
 
 #######################
 # Dashboard Main Panel
-col = st.columns((1.5, 4.5, 2), gap='medium')
+col = st.columns((1, 3, 2), gap='medium')
 
 with col[0]:
-    st.markdown('#### Gains/Losses')
-
     df_population_difference_sorted = calculate_population_difference(df_reshaped, selected_year)
 
-    if selected_year > 2010:
-        first_state_name = df_population_difference_sorted.states.iloc[0]
-        first_state_population = format_number(df_population_difference_sorted.population.iloc[0])
-        first_state_delta = format_number(df_population_difference_sorted.population_difference.iloc[0])
+    response_sensor_count = requests.get("http://127.0.0.1:8000/count-sensors")
+    if response_sensor_count.status_code == 200:
+        sensor_data_count = int(response_sensor_count.json()[0][f"COUNT(*)"])
+        st.metric(label="Sensor Count", value=sensor_data_count, delta=2)
     else:
-        first_state_name = '-'
-        first_state_population = '-'
-        first_state_delta = ''
-    st.metric(label=first_state_name, value=first_state_population, delta=first_state_delta)
+        st.error(f"Failed to fetch data: {response_sensor_count.status_code}")
 
-    if selected_year > 2010:
-        last_state_name = df_population_difference_sorted.states.iloc[-1]
-        last_state_population = format_number(df_population_difference_sorted.population.iloc[-1])   
-        last_state_delta = format_number(df_population_difference_sorted.population_difference.iloc[-1])   
+    response_person_count = requests.get("http://127.0.0.1:8000/count-persons")
+    if response_person_count.status_code == 200:
+        person_data_count = int(response_person_count.json()[0][f"COUNT(*)"])
+        st.metric(label="Person Count", value=person_data_count, delta=2)
     else:
-        last_state_name = '-'
-        last_state_population = '-'
-        last_state_delta = ''
-    st.metric(label=last_state_name, value=last_state_population, delta=last_state_delta)
-
+        st.error(f"Failed to fetch data: {response_person_count.status_code}")
     
-    st.markdown('#### States Migration')
-
-    if selected_year > 2010:
-        # Filter states with population difference > 50000
-        # df_greater_50000 = df_population_difference_sorted[df_population_difference_sorted.population_difference_absolute > 50000]
-        df_greater_50000 = df_population_difference_sorted[df_population_difference_sorted.population_difference > 50000]
-        df_less_50000 = df_population_difference_sorted[df_population_difference_sorted.population_difference < -50000]
-        
-        # % of States with population difference > 50000
-        states_migration_greater = round((len(df_greater_50000)/df_population_difference_sorted.states.nunique())*100)
-        states_migration_less = round((len(df_less_50000)/df_population_difference_sorted.states.nunique())*100)
-        donut_chart_greater = make_donut(states_migration_greater, 'Inbound Migration', 'green')
-        donut_chart_less = make_donut(states_migration_less, 'Outbound Migration', 'red')
-    else:
-        states_migration_greater = 0
-        states_migration_less = 0
-        donut_chart_greater = make_donut(states_migration_greater, 'Inbound Migration', 'green')
-        donut_chart_less = make_donut(states_migration_less, 'Outbound Migration', 'red')
-
-    migrations_col = st.columns((0.2, 1, 0.2))
-    with migrations_col[1]:
-        st.write('Inbound')
-        st.altair_chart(donut_chart_greater)
-        st.write('Outbound')
-        st.altair_chart(donut_chart_less)
 
 with col[1]:
-    st.markdown('#### Total Population')
+    donut_chart_ultrasonic = make_donut(1, 'Inbound Migration', 'green')
+    donut_chart_sound = make_donut(99, 'Outbound Migration', 'red')
+    donut_chart_push = make_donut(49, 'Outbound Migration', 'green')
+    donut_chart_ir = make_donut(12, 'Outbound Migration', 'green')
+    donut_chart_magnetic = make_donut(78, 'Outbound Migration', 'red')
+    migrations_col = st.columns((1, 2, 2))
+    with migrations_col[1]:
+        st.write('Ultrasonic')
+        st.altair_chart(donut_chart_ultrasonic)
+        st.write('Sound')
+        st.altair_chart(donut_chart_sound)
+    with migrations_col[2]:
+        st.write('Push Button')
+        st.altair_chart(donut_chart_push)
+        st.write('IR')
+        st.altair_chart(donut_chart_ir)
+        st.write('Magnetic')
+        st.altair_chart(donut_chart_magnetic)
     
-    choropleth = make_choropleth(df_selected_year, 'states_code', 'population', selected_color_theme)
-    st.plotly_chart(choropleth, use_container_width=True)
-    
-    heatmap = make_heatmap(df_reshaped, 'year', 'states', 'population', selected_color_theme)
-    st.altair_chart(heatmap, use_container_width=True)
-    
-
 with col[2]:
-    st.markdown('#### Top States')
-
     st.dataframe(df_selected_year_sorted,
                  column_order=("states", "population"),
                  hide_index=True,

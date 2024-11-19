@@ -16,6 +16,18 @@ def all_persons():
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM PERSON')
     return cursor.fetchall()
+
+def count_persons():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(*) FROM PERSON')
+    return cursor.fetchall()
+
+def count_sensors():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(*) FROM SENSOR')
+    return cursor.fetchall()
     
 def all_rooms():
     connection = create_connection_aiven()
