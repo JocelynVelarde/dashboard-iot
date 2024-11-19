@@ -99,7 +99,7 @@ def get_ir_logs():
 def get_ultrasonic_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 19')
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 6')
     return cursor.fetchall()
     
 def get_push_logs():
@@ -127,7 +127,7 @@ def insert_house(direction_ip, direction):
 def insert_person(room_id, name):
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    query = 'INSERT INTO PERSON (room_id, name) VALUES ((%s, %s)'
+    query = 'INSERT INTO PERSON (room_id, name) VALUES (%s, %s)'
     cursor.execute(query, (room_id, name))
     connection.commit()
     return {"message": "House inserted successfully."}
