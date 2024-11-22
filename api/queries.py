@@ -162,3 +162,11 @@ def insert_log_sensor(date_, measure, sensor_id):
     cursor.execute(query, (date_, measure, sensor_id))
     connection.commit()
     return {"message": "Log sensor inserted successfully."}
+
+def insert_log_actuator(date_, active_, actuator_id):
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO LOG_ACTUATOR (date_, active_, actuator_id) VALUES (%s, %s, %s)'
+    cursor.execute(query, (date_, active_, actuator_id))
+    connection.commit()
+    return {"message": "Log actuator inserted successfully."}

@@ -4,3 +4,5 @@ streamlit_geolocation
 streamlit
 pymysql
 geopy
+uvicorn
+fastapi

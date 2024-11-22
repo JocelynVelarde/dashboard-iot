@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator, insert_log_actuator
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -26,6 +26,11 @@ class LogSensor(BaseModel):
     date_: str
     measure: int
     sensor_id: int
+
+class LogActuator(BaseModel):
+    date_a: str
+    active: int
+    actuator_id: int
 
 class House(BaseModel):
     direction_ip: str
@@ -148,6 +153,14 @@ async def get_push_log():
 async def add_log_sensor(log_sensor: LogSensor):
     result = insert_log_sensor(log_sensor.date_, log_sensor.measure, log_sensor.sensor_id)
     if result["message"] == "Log sensor inserted successfully.":
+        return result
+    else:
+        raise HTTPException(status_code=500, detail=result["message"])
+    
+@app.post("/add-log-actuator")
+async def add_log_actuator(log_actuator: LogActuator):
+    result = insert_log_actuator(log_actuator.date_a, log_actuator.active, log_actuator.actuator_id)
+    if result["message"] == "Log actuator inserted successfully.":
         return result
     else:
         raise HTTPException(status_code=500, detail=result["message"])
