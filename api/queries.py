@@ -17,6 +17,13 @@ def all_persons():
     cursor.execute('SELECT * FROM PERSON')
     return cursor.fetchall()
 
+def all_actuators():
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM ACTUATOR')
+    return cursor.fetchall()
+
+
 def count_persons():
     connection = create_connection_aiven()
     cursor = connection.cursor()
@@ -38,7 +45,7 @@ def count_rooms():
 def count_houses():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT COUNT(*) FROM HOUSE')
+    cursor.execute('SELECT COUNT(*) FROM ROOM')
     return cursor.fetchall()
 
 def recent_house():
@@ -115,6 +122,14 @@ def insert_sensor(sensor_type, unit, room_id):
     cursor.execute(query, (sensor_type, unit, room_id))
     connection.commit()
     return {"message": "Sensor inserted successfully."}
+
+def insert_actuator(condition, sensor_id):
+    connection = create_connection_aiven()
+    cursor = connection.cursor()
+    query = 'INSERT INTO ACTUATOR (condition_, sensor_id) VALUES (%s, %s)'
+    cursor.execute(query, (condition, sensor_id))
+    connection.commit()
+    return {"message": "Actuator inserted successfully."}
     
 def insert_house(direction_ip, direction):
     connection = create_connection_aiven()

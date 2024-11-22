@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -9,6 +9,10 @@ class Sensor(BaseModel):
     type_: str
     unit: str
     room_id: int
+
+class Actuator(BaseModel):
+    condition: int
+    sensor_id_a: int
 
 class Room(BaseModel):
     num_windows: int
@@ -80,6 +84,14 @@ async def get_all_rooms():
 async def add_sensor(sensor: Sensor):
     result = insert_sensor(sensor.type_, sensor.unit, sensor.room_id)
     if result["message"] == "Sensor inserted successfully.":
+        return result
+    else:
+        raise HTTPException(status_code=500, detail=result["message"])
+    
+@app.post("/add-actuator")
+async def add_actuator(actuator: Actuator):
+    result = insert_actuator(actuator.condition, actuator.sensor_id_a)
+    if result["message"] == "Actuator inserted successfully.":
         return result
     else:
         raise HTTPException(status_code=500, detail=result["message"])
