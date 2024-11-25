@@ -5,4 +5,4 @@ streamlit
 pymysql
 geopy
 uvicorn
-fastapi
+fastapi[standard]

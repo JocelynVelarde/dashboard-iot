@@ -10,7 +10,7 @@ st.subheader("Add a new actuator 🔧")
 actuator_condition = st.number_input(label="Add the actuator condition", min_value=int(1), max_value=int(100))
 sensor_id = st.number_input(label="Add sensor id", min_value=int(1), max_value=int(100))
 if st.button(label='Add actuator'):
-    response_add_actuator = requests.post("http://127.0.0.1:8000/add-actuator", json={
+    response_add_actuator = requests.post("https://fast-api-reto.onrender.com/add-actuator", json={
         "condition": actuator_condition,
         "sensor_id_a": sensor_id,
     })
