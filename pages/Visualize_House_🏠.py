@@ -84,6 +84,7 @@ st.subheader('House Information 🏡')
 if response_houses.status_code == 200:
     houses_data = response_houses.json()
     df = pd.DataFrame(houses_data)
+    #number_houses = st.write(f"Number of houses: {len(df)}")
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_houses.status_code}")

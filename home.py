@@ -129,14 +129,17 @@ with col[0]:
     else:
         st.error(f"Failed to fetch data: {response_person_count.status_code}")
 
-    response_house_count = requests.get("https://fast-api-reto.onrender.com/count-houses")
+    response_houses = requests.get("https://fast-api-reto.onrender.com/get-all-houses")
+    if response_houses.status_code == 200:
+        houses_data = response_houses.json()
+        df = pd.DataFrame(houses_data)
+        number_houses = len(df)
     response_resent_house = requests.get("https://fast-api-reto.onrender.com/recent-house")
-    if response_house_count.status_code == 200:
-        house_data_count = int(response_house_count.json()[0][f"COUNT(*)"])
+    if response_resent_house.status_code == 200:
         recent_data_house = response_resent_house.json()[0].get("direction")
-        st.metric(label="House Count", value=house_data_count, delta=recent_data_house)
+        st.metric(label="House Count", value=number_houses, delta=recent_data_house)
     else:
-        st.error(f"Failed to fetch data: {response_house_count.status_code}")
+        st.error(f"Failed to fetch data: {response_resent_house.status_code}")
 
     response_room_count = requests.get("https://fast-api-reto.onrender.com/count-rooms")
     response_recent_room = requests.get("https://fast-api-reto.onrender.com/recent-room")
