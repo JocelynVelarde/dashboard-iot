@@ -1,13 +1,9 @@
-#######################
-# Import libraries
 import streamlit as st
 import pandas as pd
 import altair as alt
 import plotly.express as px
 import requests
 
-#######################
-# Page configuration
 st.set_page_config(
     page_title="Secure Sense 🔐",
     page_icon="🏂",
@@ -16,8 +12,6 @@ st.set_page_config(
 
 alt.themes.enable("dark")
 
-#######################
-# CSS styling
 st.markdown("""
 <style>
 
@@ -66,19 +60,8 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-#######################
-# Load data
-
-
-#######################
-# Sidebar
 with st.sidebar:
     st.title('🏡 Secure Sense Dashboard')
-    
-    
-
-
-#######################
 
 
 # Donut chart
@@ -124,28 +107,9 @@ def make_donut(input_response, input_text, input_color):
   ).properties(width=130, height=130)
   return plot_bg + plot + text
 
-# Convert population to text 
-def format_number(num):
-    if num > 1000000:
-        if not num % 1000000:
-            return f'{num // 1000000} M'
-        return f'{round(num / 1000000, 1)} M'
-    return f'{num // 1000} K'
-
-# Calculation year-over-year population migrations
-def calculate_population_difference(input_df, input_year):
-  selected_year_data = input_df[input_df['year'] == input_year].reset_index()
-  previous_year_data = input_df[input_df['year'] == input_year - 1].reset_index()
-  selected_year_data['population_difference'] = selected_year_data.population.sub(previous_year_data.population, fill_value=0)
-  return pd.concat([selected_year_data.states, selected_year_data.id, selected_year_data.population, selected_year_data.population_difference], axis=1).sort_values(by="population_difference", ascending=False)
-
-
-#######################
-# Dashboard Main Panel
 col = st.columns((1.5, 3, 1.5), gap='medium')
 
 with col[0]:
-    df_population_difference_sorted = calculate_population_difference(df_reshaped, selected_year)
 
     response_sensor_count = requests.get("https://fast-api-reto.onrender.com/count-sensors")
     response_recent_sensor = requests.get("https://fast-api-reto.onrender.com/recent-sensor")
