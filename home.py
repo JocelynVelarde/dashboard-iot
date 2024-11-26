@@ -191,8 +191,8 @@ col = st.columns((1.5, 3, 1.5), gap='medium')
 with col[0]:
     df_population_difference_sorted = calculate_population_difference(df_reshaped, selected_year)
 
-    response_sensor_count = requests.get("http://127.0.0.1:8000/count-sensors")
-    response_recent_sensor = requests.get("http://127.0.0.1:8000/recent-sensor")
+    response_sensor_count = requests.get("https://fast-api-reto.onrender.com/count-sensors")
+    response_recent_sensor = requests.get("https://fast-api-reto.onrender.com/recent-sensor")
     if response_sensor_count.status_code == 200:
         sensor_data_count = int(response_sensor_count.json()[0][f"COUNT(*)"])
         recent_data_sensor = response_recent_sensor.json()[0].get("type_")
@@ -200,8 +200,8 @@ with col[0]:
     else:
         st.error(f"Failed to fetch data: {response_sensor_count.status_code}")
 
-    response_person_count = requests.get("http://127.0.0.1:8000/count-persons")
-    response_recent_person = requests.get("http://127.0.0.1:8000/recent-person")
+    response_person_count = requests.get("https://fast-api-reto.onrender.com/count-persons")
+    response_recent_person = requests.get("https://fast-api-reto.onrender.com/recent-person")
     if response_person_count.status_code == 200:
         person_data_count = int(response_person_count.json()[0][f"COUNT(*)"])
         recent_data_person = response_recent_person.json()[0].get("name")
@@ -209,8 +209,8 @@ with col[0]:
     else:
         st.error(f"Failed to fetch data: {response_person_count.status_code}")
 
-    response_house_count = requests.get("http://127.0.0.1:8000/count-houses")
-    response_resent_house = requests.get("http://127.0.0.1:8000/recent-house")
+    response_house_count = requests.get("https://fast-api-reto.onrender.com/count-houses")
+    response_resent_house = requests.get("https://fast-api-reto.onrender.com/recent-house")
     if response_house_count.status_code == 200:
         house_data_count = int(response_house_count.json()[0][f"COUNT(*)"])
         recent_data_house = response_resent_house.json()[0].get("direction")
@@ -218,8 +218,8 @@ with col[0]:
     else:
         st.error(f"Failed to fetch data: {response_house_count.status_code}")
 
-    response_room_count = requests.get("http://127.0.0.1:8000/count-rooms")
-    response_recent_room = requests.get("http://127.0.0.1:8000/recent-room")
+    response_room_count = requests.get("https://fast-api-reto.onrender.com/count-rooms")
+    response_recent_room = requests.get("https://fast-api-reto.onrender.com/recent-room")
     if response_room_count.status_code == 200:
         room_data_count = int(response_room_count.json()[0][f"COUNT(*)"])
         recent_data_room = response_recent_room.json()[0].get("num_windows")
