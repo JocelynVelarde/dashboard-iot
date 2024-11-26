@@ -62,9 +62,8 @@ st.markdown("""
 
 with st.sidebar:
     st.title('🏡 Secure Sense Dashboard')
+    st.image("assets/logo.jpeg")
 
-
-# Donut chart
 def make_donut(input_response, input_text, input_color):
   if input_color == 'blue':
       chart_color = ['#29b5e8', '#155F7A']
