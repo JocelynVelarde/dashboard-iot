@@ -1,4 +1,4 @@
-Secure Sense
+## Secure Sense
 #![WhatsApp Image 2024-11-26 at 10 03 12](https://github.com/user-attachments/assets/29cad3bb-37d4-4ec8-91b1-6788322ce308)
 
 ## Installation
