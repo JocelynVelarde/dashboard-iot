@@ -100,7 +100,7 @@ def get_magnetic_logs():
 def get_ir_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 10')
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 11')
     return cursor.fetchall()
     
 def get_ultrasonic_logs():
