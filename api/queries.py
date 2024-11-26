@@ -45,7 +45,7 @@ def count_rooms():
 def count_houses():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT COUNT(*) FROM ROOM')
+    cursor.execute('SELECT COUNT(*) FROM HOUSE')
     return cursor.fetchall()
 
 def recent_house():
