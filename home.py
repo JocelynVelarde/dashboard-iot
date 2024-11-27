@@ -5,7 +5,7 @@ import plotly.express as px
 import requests
 
 st.set_page_config(
-    page_title="Secure Sense 🔐",
+    page_title="Secure Sense TEST 🔐",
     page_icon="🏂",
     layout="wide",
     initial_sidebar_state="expanded")
