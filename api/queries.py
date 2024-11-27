@@ -94,7 +94,7 @@ def get_sound_logs():
 def get_magnetic_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 7')
+    cursor.execute('SELECT * FROM LOG_SENSOR WHERE sensor_id = 11')
     return cursor.fetchall()
     
 def get_ir_logs():
