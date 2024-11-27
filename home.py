@@ -61,7 +61,7 @@ st.markdown("""
 
 
 with st.sidebar:
-    st.title('🏡 Secure Sense Dashboard')
+    st.title('🏡 Secure Sense TEST Dashboard')
     st.image("assets/logo.jpeg")
 
 def make_donut(input_response, input_text, input_color):
