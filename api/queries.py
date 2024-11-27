@@ -125,7 +125,7 @@ def get_lcd_logs():
 def get_buzzer_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 14')
+    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 11')
     return cursor.fetchall()
 
 def get_servo_logs():

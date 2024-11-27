@@ -50,8 +50,10 @@ response_magnetic = requests.get("https://fast-api-reto.onrender.com/get-magneti
 if response_magnetic.status_code == 200:
     magnetic_data = response_magnetic.json()
     df = pd.DataFrame(magnetic_data)
+    df['date_'] = df['date_'].str.replace('T', ' ')
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['measure']) 
     st.table(df)
-    print(df)  
     #df['date_'] = pd.to_datetime(df['date_'])
    # st.bar_chart(df.set_index('date_')['measure'])
     
@@ -64,6 +66,9 @@ response_push = requests.get("https://fast-api-reto.onrender.com/get-push-logs")
 if response_push.status_code == 200:
     push_data = response_push.json()
     df = pd.DataFrame(push_data)
+    df['date_'] = df['date_'].str.replace('T', ' ')
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['measure'])
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_push.status_code}")
@@ -74,6 +79,9 @@ response_ir = requests.get("https://fast-api-reto.onrender.com/get-ir-logs")
 if response_ir.status_code == 200:
     ir_data = response_ir.json()
     df = pd.DataFrame(ir_data)
+    df['date_'] = df['date_'].str.replace('T', ' ')
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['measure'])
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_ir.status_code}")
@@ -84,6 +92,9 @@ response_sound = requests.get("https://fast-api-reto.onrender.com/get-sound-logs
 if response_sound.status_code == 200:
     sound_data = response_sound.json()
     df = pd.DataFrame(sound_data)
+    df['date_'] = df['date_'].str.replace('T', ' ')
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['measure'])
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_sound.status_code}")
