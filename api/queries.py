@@ -84,6 +84,7 @@ def all_sensors():
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM SENSOR')
     return cursor.fetchall()
+
     
 def get_sound_logs():
     connection = create_connection_aiven()

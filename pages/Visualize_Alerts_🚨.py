@@ -19,3 +19,13 @@ if st.button(label='Add actuator'):
         st.success("Actuator added!")
     else: 
         st.error(f"Failed to add actuator: {response_add_actuator.status_code}")
+
+st.divider()
+st.subheader("Actuator Information")
+response_actuator = requests.get("https://fast-api-reto.onrender.com/get-all-actuators")
+if response_actuator.status_code == 200:
+    actuator_data = response_actuator.json()
+    df = pd.DataFrame(actuator_data)
+    st.table(df)  
+else:
+    st.error(f"Failed to fetch data: {response_actuator.status_code}")

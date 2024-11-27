@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator, insert_log_actuator
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator, insert_log_actuator, all_actuators
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -32,6 +32,10 @@ class LogActuator(BaseModel):
     active: int
     actuator_id: int
 
+class Actuator(BaseModel):
+    condition: int
+    sensor_id_ac: int
+
 class House(BaseModel):
     direction_ip: str
     direction: str
@@ -44,6 +48,10 @@ async def root():
 @app.get("/get-all-houses")
 async def get_all_houses():
     return all_houses()
+
+@app.get("/get-all-actuators")
+async def get_all_actuators():
+    return all_actuators()
 
 @app.get("/recent-house")
 async def get_recent_house():
