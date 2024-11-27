@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator, insert_log_actuator, all_actuators
+from queries import all_houses, all_persons, insert_sensor, insert_log_sensor, all_sensors, all_rooms, insert_person, insert_house, insert_room, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_ultrasonic_logs, count_persons, count_sensors, count_houses, count_rooms, recent_house, recent_person, recent_room, recent_sensor, insert_actuator, insert_log_actuator, all_actuators, get_lcd_logs, get_led_logs, get_servo_logs, get_vibrate_logs, get_ultrasonic_logs, get_sound_logs, get_ir_logs, get_magnetic_logs, get_push_logs, get_buzzer_logs
 from pydantic import BaseModel
 from fastapi.exceptions import HTTPException
 
@@ -156,6 +156,26 @@ async def get_ir_log():
 @app.get("/get-push-logs")
 async def get_push_log():
     return get_push_logs()
+
+@app.get("/get-lcd-logs")
+async def get_lcd_log():
+    return get_lcd_logs()
+
+@app.get("/get-vibrate-logs")
+async def get_vibrate_log():
+    return get_vibrate_logs()
+
+@app.get("/get-led-logs")
+async def get_led_log():
+    return get_led_logs()
+
+@app.get("/get-servo-logs")
+async def get_servo_log():
+    return get_servo_logs()
+
+@app.get('/get-buzzer-logs')
+async def get_buzzer_log():
+    return get_buzzer_logs()
 
 @app.post("/add-log-sensor")
 async def add_log_sensor(log_sensor: LogSensor):
