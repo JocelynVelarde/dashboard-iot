@@ -119,7 +119,7 @@ def get_push_logs():
 def get_lcd_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 10')
+    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 3')
     return cursor.fetchall()
 
 def get_buzzer_logs():
@@ -131,19 +131,19 @@ def get_buzzer_logs():
 def get_servo_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 13')
+    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 4')
     return cursor.fetchall()
 
 def get_vibrate_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 11')
+    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 9')
     return cursor.fetchall()
 
 def get_led_logs():
     connection = create_connection_aiven()
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 12')
+    cursor.execute('SELECT * FROM LOG_ACTUATOR WHERE actuator_id = 10')
     return cursor.fetchall()
     
 def insert_sensor(sensor_type, unit, room_id):
