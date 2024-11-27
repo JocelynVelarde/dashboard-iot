@@ -50,9 +50,10 @@ response_magnetic = requests.get("https://fast-api-reto.onrender.com/get-magneti
 if response_magnetic.status_code == 200:
     magnetic_data = response_magnetic.json()
     df = pd.DataFrame(magnetic_data)
-    st.table(df)  
-    df['date_'] = pd.to_datetime(df['date_'])
-    st.bar_chart(df.set_index('date_')['measure'])
+    st.table(df)
+    print(df)  
+    #df['date_'] = pd.to_datetime(df['date_'])
+   # st.bar_chart(df.set_index('date_')['measure'])
     
 else:
     st.error(f"Failed to fetch data: {response_magnetic.status_code}")
