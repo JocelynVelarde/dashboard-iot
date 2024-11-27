@@ -27,6 +27,7 @@ if response_actuator.status_code == 200:
     actuator_data = response_actuator.json()
     df = pd.DataFrame(actuator_data)
     st.table(df)  
+    
 else:
     st.error(f"Failed to fetch data: {response_actuator.status_code}")
 
@@ -36,6 +37,8 @@ response_lcd = requests.get("https://fast-api-reto.onrender.com/get-lcd-logs")
 if response_lcd.status_code == 200:
     lcd_data = response_lcd.json()
     df = pd.DataFrame(lcd_data)
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['active_'])
     st.table(df)  
 else:
     st.error(f"Failed to fetch data: {response_lcd.status_code}")
@@ -46,6 +49,8 @@ response_vibration = requests.get("https://fast-api-reto.onrender.com/get-vibrat
 if response_vibration.status_code == 200:
     vibration_data = response_vibration.json()
     df = pd.DataFrame(vibration_data)
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['active_'])
     st.table(df)
 else:
     st.error(f"Failed to fetch data: {response_vibration.status_code}")
@@ -56,6 +61,8 @@ response_led = requests.get("https://fast-api-reto.onrender.com/get-led-logs")
 if response_led.status_code == 200:
     led_data = response_led.json()
     df = pd.DataFrame(led_data)
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['active_'])
     st.table(df)
 else:
     st.error(f"Failed to fetch data: {response_led.status_code}")
@@ -66,6 +73,8 @@ response_servo = requests.get("https://fast-api-reto.onrender.com/get-servo-logs
 if response_servo.status_code == 200:
     servo_data = response_servo.json()
     df = pd.DataFrame(servo_data)
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['active_'])
     st.table(df)
 else:
     st.error(f"Failed to fetch data: {response_servo.status_code}")
@@ -76,6 +85,8 @@ response_buzzer = requests.get("https://fast-api-reto.onrender.com/get-buzzer-lo
 if response_buzzer.status_code == 200:
     buzzer_data = response_buzzer.json()
     df = pd.DataFrame(buzzer_data)
+    df['date_'] = pd.to_datetime(df['date_'])
+    st.line_chart(df.set_index('date_')['active_'])
     st.table(df)
 else:
     st.error(f"Failed to fetch data: {response_buzzer.status_code}")

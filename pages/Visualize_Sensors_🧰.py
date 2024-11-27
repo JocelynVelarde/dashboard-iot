@@ -79,7 +79,6 @@ response_ir = requests.get("https://fast-api-reto.onrender.com/get-ir-logs")
 if response_ir.status_code == 200:
     ir_data = response_ir.json()
     df = pd.DataFrame(ir_data)
-    df['date_'] = df['date_'].str.replace('T', ' ')
     df['date_'] = pd.to_datetime(df['date_'])
     st.line_chart(df.set_index('date_')['measure'])
     st.table(df)  
